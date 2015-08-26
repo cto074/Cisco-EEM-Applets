@@ -6,10 +6,10 @@ This EEM applet calculate bandwidth of an interface subtracting the bytes of the
 To allow SNMP polling at router we need to have "snmp-server manager" configured.
 Value of .ifindex can be checked with command "show snmp mib ifmib ifindex"
 
-Cisco routers refresh interface rate by default every few seconds but the value that is showed is an average of a 5 minutes ##interval (by default, it can ##be lowered to 30 seconds with command "load-interval 30". 
+Cisco routers refresh interface rate by default every few seconds but the value that is showed is an average of a 5 minutes ##interval (by default, it can be lowered to 30 seconds with command "load-interval 30". 
 So in most cases, we can't observe traffic bursts, at least with this script we can quickly check the average rate in a 2 ##second interval.
 
-Ideally we should use a SNMP polling server (example MRTG, Cacti,..) with a very small interval between SNMP requests, but ##not always is available. Also ##it should be checked the snmp counter update interval that varies depending on the IOS ##versions.
+Ideally we should use a SNMP polling server (example MRTG, Cacti,..) with a very small interval between SNMP requests, but ##not always is available. Also it should be checked the snmp counter update interval that varies depending on the IOS ##versions.
 
 There are two commands that you can use to control how often the SNMP counters are updated.
 The first command is the “service counters max age seconds” which configures the maximum "age" of cached counters, in seconds. 
