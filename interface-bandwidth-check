@@ -1,0 +1,41 @@
+!!! Embedded Event Manager Applet for Cisco routers that support EEM functionality.
+!!! This EEM applet calculate bandwidth of an interface subtracting the bytes of the interface with a 2 seconds interval. 
+
+!!!To allow SNMP polling at router we need to have "snmp-server manager" configured.
+!!!Value of .ifindex can be checked with command "show snmp mib ifmib ifindex"
+
+!!!<ifindex.56> is a variable 
+
+
+!
+! Script configuration
+!
+event manager applet speed
+event none maxrun 120
+action 1.0 cli command "terminal length  0"
+action 1.1 set i 30
+action 1.2 while $i ge 0
+action 1.3 info type snmp oid <ifindex.56> get-type exact community <community>
+action 1.4 set aa $_info_snmp_value
+action 1.5 puts "Bytes en el instante A $_info_snmp_value"
+action 1.6 wait 2
+action 1.7 info type snmp oid <ifindex.56> get-type exact community <community>
+action 1.8 set bb $_info_snmp_value
+action 1.9 puts "Bytes en el instante B $_info_snmp_value"
+action 2.0 subtract $bb $aa
+action 2.1 divide $_result 2
+action 2.2 multiply $_result 8
+action 2.3 puts "Interface speed <ifindex.56> : $_result bps"
+action 2.4 wait 1
+action 2.5 decrement i 1
+action 2.6 end
+action 2.7 exit
+!
+!
+exit
+!
+exit
+
+! To run the script 
+
+event manager run speed
